@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1490525767 source:e:\endeavor\isprime\main.cpp
+	<iostream>
+	<cmath>
+	<cstring>
+
