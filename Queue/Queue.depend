@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1490531285 source:e:\endeavor\queue\src\myqueue.cpp
+	"MyQueue.h"
+	<iostream>
+
+1490531369 e:\endeavor\queue\include\myqueue.h
+
+1490531621 source:e:\endeavor\queue\main.cpp
+	<iostream>
+	"MyQueue.h"
+
