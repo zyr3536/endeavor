@@ -9,10 +9,10 @@ int n;
 void dfs(int step);
 int main()
 {
-    cout<<"请输入一个整数(小于100)："<<endl;
+    cout<<"请输入一个正整数(小于100)："<<endl;
     cin >> n;
-
-    dfs(0);
+    if(n > 0 && n < 100)
+        dfs(0);
     return 0;
 }
 
