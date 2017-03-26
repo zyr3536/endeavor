@@ -13,6 +13,8 @@ int main()
     cin >> n;
     if(n > 0 && n < 100)
         dfs(0);
+    else
+        cout<<"请输入有效数据！"<<endl;
     return 0;
 }
 
