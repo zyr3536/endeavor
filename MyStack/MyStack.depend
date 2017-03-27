@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1490538231 source:e:\endeavor\mystack\src\mystack.cpp
+	"MyStack.h"
+	<iostream>
+
+1490579478 e:\endeavor\mystack\include\mystack.h
+	<iostream>
+
+1490583325 source:e:\endeavor\mystack\main.cpp
+	"MyStack.h"
+	<iostream>
+	<cstring>
+
