@@ -15,6 +15,7 @@ void selectionSort(T arr[],int n)
         swap(arr[i],arr[minIndex]);
     }
 }
+
 //简单插入排序
 template<typename T>
 void insertionSort(T a[],int n)
@@ -24,27 +25,95 @@ void insertionSort(T a[],int n)
         T tmp = a[i];
         int j;
         for(j = i; j > 0 && tmp < a[j - 1];j--)//可以提前结束
-        {
             a[j] = a[j - 1];
-        }
         a[j] = tmp;
     }
 }
 
-//希尔排序（插入排序加强版）
+//希尔插入排序
 template<typename T>
-void shellSort(T a[],int n)
+void shellSort(T arr[], int n)
 {
-
+    for(int h = n / 2; h > 0; h /= 2)
+    {
+        for(int i = 1; i < n; ++i)
+        {
+            int j;
+            T tmp = arr[i];
+            for(j = i; j >= h && tmp < arr[j - h]; j-= h)
+                arr[j] = arr[j - h];
+            arr[j] = tmp;
+        }
+    }
 }
+// 合并过程
+template<typename T>
+void merge(T a[],int left, int middle,int right)
+{
+    int i = left, j = middle + 1;
+    if(a[middle] < a[middle + 1])// optimize 2
+        return;
+    T *aux = new T[right - left + 1];
+    for(int i = left, j = 0;i <= right; ++i,++j)
+        aux[j] = a[i];
+    for(int k = left;k <= right;++k)
+    {
+        if(i > middle)
+            a[k] = aux[j++ - left];
+        else if(j > right)
+            a[k] = aux[i++ - left];
+        else if(aux[j - left] < aux[i - left])
+            a[k] = aux[j++ - left];
+        else
+            a[k] = aux[i++ - left];
+    }
+    delete aux;
+    aux = NULL;
+}
+
+//归并排序递归子程序
+template<typename T>
+void __mergeSort(T a[], int left,int right)
+{
+    if( left == right)
+        return;
+    if(right - left < 10)// optimize 1
+        insertionSort(a + left,right - left + 1);
+    int middle = (left + right) / 2;
+    __mergeSort(a, left, middle);
+    __mergeSort(a, middle + 1, right);
+    merge(a, left, middle, right);
+}
+
+//归并排序
+template<typename T>
+void mergeSort(T a[], int n)
+{
+    __mergeSort(a, 0, n-1);
+}
+
+//归并排序自底向上
+template<typename T>
+void mergeSortBU(T a[], int n)
+{
+    for(int size = 1; size <= n; size += size)
+    {
+        int i;
+        for(i = 0;i + 2 * size < n; i += 2 * size)
+            merge(a, i, i + size - 1, i + 2 * size - 1);
+            if(i + size < n)
+                merge(a, i, i + size - 1, n - 1);
+    }
+}
+
 int main()
 {
-    int n = 10000;
-    int *arr = SortTestHelper::generateNearlyOrderedArray(n,100);
+    int n = 6553600;
+    int *arr = SortTestHelper::generateRandomArray(n,0,n);
     int *arr2 = SortTestHelper::copyIntArray(arr,n);
-    SortTestHelper::testSort("Selection Sort",selectionSort,arr,n);
-    SortTestHelper::testSort("Insertion Sort",insertionSort,arr2,n);
-    //SortTestHelper::PrintArray(arr,n);
+    mergeSort(arr,n);
+    SortTestHelper::testSort("Shell Sort",shellSort,arr,n);
+    SortTestHelper::testSort("merge Sort",mergeSortBU,arr2,n);
     delete[] arr2;
     delete[] arr;
     return 0;
