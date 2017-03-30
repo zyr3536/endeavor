@@ -106,14 +106,78 @@ void mergeSortBU(T a[], int n)
     }
 }
 
+//Partition过程
+template<typename T>
+int __partition(T a[],int l,int r)
+{
+    swap(a[l],a[rand()%(r - l + 1) + l]); //随机选取哨兵
+    T v = a[l];
+    int j = l;
+    for(int i = l + 1;i <= r;++i )
+    {
+        if(a[i] < v)
+        {
+            swap(a[++j],a[i]);
+        }
+    }
+    swap(a[l],a[j]);
+    return j;
+}
+
+//Partition过程(填坑法)
+//因为不需要swap，比基本的快排要快
+template<typename T>
+int __partition_(T a[],int l,int r)
+{
+    swap(a[l],a[rand()%(r - l + 1) + l]); //随机选取哨兵
+    int i = l,j = r;
+    T v = a[i];
+    while(i < j)
+    {
+        while(i < j && a[j] > v)
+            j--;
+        if(i < j)
+            a[i++] = a[j];
+        while(i < j && a[i] < v)
+            i++;
+        if(i < j)
+            a[j--] = a[i];
+    }
+    a[i] = v;
+    return i;
+}
+
+//快速排序递归子程序
+template<typename T>
+void __quickSort(T a[],int l, int r)
+{
+    if(l >= r)
+        return;
+    int p = __partition(a,l,r);
+    __quickSort(a,l,p - 1);
+    __quickSort(a,p + 1,r);
+}
+
+
+//快速排序
+template<typename T>
+void quickSort(T a[], int n)
+{
+    srand(time(NULL));
+    __quickSort(a,0, n - 1);
+}
+
+
 int main()
 {
-    int n = 6553600;
-    int *arr = SortTestHelper::generateRandomArray(n,0,n);
+    int n = 655360;
+    int *arr = SortTestHelper::generateRandomArray(n,0,10);
     int *arr2 = SortTestHelper::copyIntArray(arr,n);
-    mergeSort(arr,n);
-    SortTestHelper::testSort("Shell Sort",shellSort,arr,n);
-    SortTestHelper::testSort("merge Sort",mergeSortBU,arr2,n);
+    int *arr3 = SortTestHelper::copyIntArray(arr,n);
+    SortTestHelper::testSort("Shell Sort",shellSort,arr2,n);
+    SortTestHelper::testSort("Quick Sort",quickSort,arr,n);
+    SortTestHelper::testSort("Merge Sort",mergeSort,arr3,n);
+    delete[] arr3;
     delete[] arr2;
     delete[] arr;
     return 0;
