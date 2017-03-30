@@ -1,4 +1,5 @@
 #include "SortTestHelper.h"
+#include "heap.h"
 #include <iostream>
 using namespace std;
 
@@ -153,7 +154,7 @@ void __quickSort(T a[],int l, int r)
 {
     if(l >= r)
         return;
-    int p = __partition(a,l,r);
+    int p = __partition_(a,l,r);
     __quickSort(a,l,p - 1);
     __quickSort(a,p + 1,r);
 }
@@ -167,16 +168,48 @@ void quickSort(T a[], int n)
     __quickSort(a,0, n - 1);
 }
 
+template<typename T>
+void __shiftDown(T a[],int n,int k)
+{
+    while(2 * k + 1 < n)
+    {
+        int j = 2 * k + 1;
+        if(j + 1 < n && a[j + 1] > a[j])
+            j++;
+        if(a[k] > a[j])
+            break;
+        swap(a[k],a[j]);
+        k = j;
+    }
+}
+
+//∂—≈≈–Ú
+template<typename T>
+void heapSort(T a[], int n)
+{
+    //Heapify
+    for(int i = (n - 1) / 2; i >= 0;i--)
+        __shiftDown(a,n,i);
+
+    for(int i = n - 1;i > 0;--i)
+    {
+        swap(a[0],a[i]);
+        __shiftDown(a,i,0);
+    }
+}
 
 int main()
 {
-    int n = 655360;
-    int *arr = SortTestHelper::generateRandomArray(n,0,10);
+    int n = 100000;
+    int *arr = SortTestHelper::generateRandomArray(n,0,n);
     int *arr2 = SortTestHelper::copyIntArray(arr,n);
     int *arr3 = SortTestHelper::copyIntArray(arr,n);
-    SortTestHelper::testSort("Shell Sort",shellSort,arr2,n);
-    SortTestHelper::testSort("Quick Sort",quickSort,arr,n);
+    int *arr4 = SortTestHelper::copyIntArray(arr,n);
+    SortTestHelper::testSort("Shell Sort",shellSort,arr,n);
+    SortTestHelper::testSort("Quick Sort",quickSort,arr2,n);
     SortTestHelper::testSort("Merge Sort",mergeSort,arr3,n);
+    SortTestHelper::testSort("Heap Sort",heapSort,arr4,n);
+    delete[] arr4;
     delete[] arr3;
     delete[] arr2;
     delete[] arr;

@@ -1,6 +1,7 @@
 # depslib dependency file v1.0
-1490859976 source:e:\endeavor\sort\main.cpp
+1490873770 source:e:\endeavor\sort\main.cpp
 	"SortTestHelper.h"
+	"heap.h"
 	<iostream>
 
 1490690049 e:\endeavor\sort\sorttesthelper.h
@@ -8,4 +9,9 @@
 	<ctime>
 	<cassert>
 	<string>
+
+1490872948 e:\endeavor\sort\heap.h
+	<iostream>
+	<cassert>
+	<ctime>
 

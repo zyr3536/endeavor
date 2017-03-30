@@ -1,0 +1,12 @@
+# depslib dependency file v1.0
+1490871692 source:e:\endeavor\maxheap\main.cpp
+	"heap.h"
+	<iostream>
+	<cassert>
+	<ctime>
+
+1490871724 e:\endeavor\maxheap\heap.h
+	<iostream>
+	<cassert>
+	<ctime>
+

@@ -2,7 +2,6 @@
 思想：运用快排的思维*/
 import java.util.*;
 public class FindKth {
-
 	public static void main(String[] args) {
 			Scanner sc = new Scanner(System.in);
 			int n = sc.nextInt();
